@@ -14,7 +14,7 @@ export default function App() {
   function handleAddGoal() {
     // console.log(enteredGoalText)
     // console.log('Hello You')
-    setGoals(() => [...goals, enteredGoalText])
+    setGoals(() => [...goals, {text: enteredGoalText, key: Math.random().toString()}])
     console.log(goals)
   }
 
@@ -34,7 +34,14 @@ export default function App() {
         />
       </View>
       <View style={styles.goalsContainer}>
-        <FlatList>
+        <FlatList
+          data={goals}
+          renderItem={ (itemData) => {
+            <View style={styles.goalsItem} >
+              <Text style={styles.goalText}>{itemData.item.text}</Text>
+            </View>
+          }}
+        >
           {goals && goals.map((goal) => 
             <View style={styles.goalsItem} key={goal}>
               <Text style={styles.goalText}>{goal}</Text>
