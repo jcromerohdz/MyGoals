@@ -1,27 +1,27 @@
 import { useState } from 'react'
 import { Button, StyleSheet, Text, TextInput, View, ScrollView, FlatList } from 'react-native';
+import GoalItem from './components/GoalItem';
+import GoalInput from './components/GoalInput';
 
 export default function App() {
-  const [enteredGoalText, setEnteredGoalText] = useState('')
   const [goals, setGoals] = useState([])
 
-  function handleInputGoal(enteredText) {
-    // console.log(enteredText)
-    setEnteredGoalText(enteredText)
 
-  }
-
-  function handleAddGoal() {
+  function handleAddGoal(enteredGoalText) {
     // console.log(enteredGoalText)
     // console.log('Hello You')
     setGoals(() => [...goals, {text: enteredGoalText, key: Math.random().toString()}])
     console.log(goals)
   }
 
+  function handleDeleteGoal(){
+    console.log('DELETE')
+  }
+
   
   return (
     <View style={styles.container}>
-      <View style={styles.inputContainer}>
+      {/* <View style={styles.inputContainer}>
         <TextInput 
           style={styles.textInput} 
           placeholder='Your Goal!'
@@ -32,23 +32,28 @@ export default function App() {
           color={'#A3FFD6'}
           onPress={handleAddGoal}
         />
-      </View>
+      </View> */}
+      <GoalInput
+        onAddGoal={handleAddGoal}
+      />
       <View style={styles.goalsContainer}>
         <FlatList
           data={goals}
           renderItem={ (itemData) => {
-            <View style={styles.goalsItem} >
-              <Text style={styles.goalText}>{itemData.item.text}</Text>
-            </View>
-          }}
-        >
-          {goals && goals.map((goal) => 
-            <View style={styles.goalsItem} key={goal}>
-              <Text style={styles.goalText}>{goal}</Text>
-            </View>
+            return(
+              // <View style={styles.goalsItem} >
+              //   <Text style={styles.goalText}>{itemData.item.text}</Text>
+              // </View>
+              <GoalItem 
+                itemData={itemData}
+                onDeleteItem={handleDeleteGoal} 
+              />
             )
-          }
-        </FlatList>
+          }}
+          keyExtractor={(item) => {
+            return item.id
+          }}
+        />
       </View>
     </View>
   );
@@ -84,14 +89,4 @@ const styles = StyleSheet.create({
   goalsContainer: {
     flex: 5
   },
-  goalsItem: {
-    margin: 8,
-    padding: 8,
-    borderRadius: 6,
-    backgroundColor: '#8576FF',
-    color: 'white'
-  },
-  goalText: {
-    color: 'white',
-  }
 });
