@@ -11,11 +11,14 @@ export default function App() {
     // console.log(enteredGoalText)
     // console.log('Hello You')
     setGoals(() => [...goals, {text: enteredGoalText, key: Math.random().toString()}])
-    console.log(goals)
+    console.log('goals', goals)
+    console.log('handleAddGoal')
   }
 
-  function handleDeleteGoal(){
+  function handleDeleteGoal(id){
     console.log('DELETE')
+    const deleteGoal = goals.filter((goal) => {return goal.key !== id} )
+    setGoals(deleteGoal)
   }
 
   
@@ -47,6 +50,7 @@ export default function App() {
               <GoalItem 
                 itemData={itemData}
                 onDeleteItem={handleDeleteGoal} 
+                id={itemData.item.key}
               />
             )
           }}
